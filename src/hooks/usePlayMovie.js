@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import {useEffect} from 'react'
 import { API_BASE_URL,TMDB_API_Options } from '../utils/constants'
 import { useDispatch } from 'react-redux';
 import { addNowPlayingMovies } from '../store/movieSlice';

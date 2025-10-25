@@ -1,8 +1,24 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import MovieList from './MovieList';
 
 function GptMovieSuggestions() {
+  const gpt = useSelector((store)=> store.gpt);
+  const{ searchedGptMovies ,moviename} = gpt;
+  if(moviename === null){
+    return null;
+  }
+
   return (
-    <div>GptMovieSuggestions</div>
+    <div className='flex justify-center bg-black bg-opacity-80 flex-wrap flex-1 overflow-y-auto bg-white '>
+        {searchedGptMovies.map((moviesArray, index) => (
+        <MovieList
+          key={index} // ✅ unique key for each list
+          movies={moviesArray}
+          title={moviename[index] || `Suggestion ${index + 1}`}
+        />
+      ))}
+    </div>
   )
 }
 

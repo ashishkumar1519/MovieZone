@@ -66,7 +66,6 @@ function Header({position}) {
   const handleLangChange = (e)=>{
     const selected = e.target.value;
     dispatch((changeLanguage(selected)));
-    console.log(config.lang)
   }
 
   return (

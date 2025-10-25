@@ -1,11 +1,19 @@
 import React, { useRef } from 'react'
 import { lang } from '../utils/LangConstant'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import GptApi from '../utils/OpenAi';
+import { TMDB_API_Options } from '../utils/constants';
+import { addGptMoviesResults } from '../store/GptSlice';
 function GptSearchBar() {
   const searchText = useRef(null);
-
+  const dispatch = useDispatch();
   const selectedLang = useSelector((store) => store.config.lang); // Default to Hindi; replace with dynamic selection if needed
+
+  const searchMovie = async (movieName) => {
+    const data = await fetch(`https://api.themoviedb.org/3/search/movie?query=${movieName}&include_adult=false&language=en-US&page=1`, TMDB_API_Options);
+    const jsonData = await data.json();
+    return jsonData.results;
+  }
 
   const handleGptSearchClick = async () => {
     console.log("Search Clicked", searchText.current.value);
@@ -23,18 +31,22 @@ function GptSearchBar() {
       return;
     }
     const gptmoviesList = gptResult.choices[0]?.message?.content.split(", ");
-    console.log(gptmoviesList);
+    // search TMDB for these movies no. promise all
+    const  data = gptmoviesList.map((movieName)=>{
+      return  searchMovie(movieName);
+    });
 
-    // search TMDP for these movies
+    const allMovieResults = await Promise.all(data);
     
+    dispatch(addGptMoviesResults( {moviename:gptmoviesList,searchResult : allMovieResults}))
 
   }
 
 
   return (
-    <div className='pt-[35%] md:pt-[10%] flex justify-center'>
+    <div className='flex justify-center w-full mb-4 bg-black bg-opacity-80 z-[100] '>
       <form
-        className='w-full md:w-1/2 bg-black bg-opacity-80 grid grid-cols-12 rounded-lg'
+        className='w-full md:w-1/2 bg-black bg-opacity-80 grid grid-cols-12 rounded-lg z-[100]'
         onSubmit={(e) => e.preventDefault()}
       >
         <input
