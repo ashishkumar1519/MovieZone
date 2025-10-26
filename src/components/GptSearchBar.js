@@ -18,14 +18,13 @@ function GptSearchBar() {
   const handleGptSearchClick = async () => {
     console.log("Search Clicked", searchText.current.value);
 
-    const query = "Act as Movie recommendation system and suggest some movie for the query" + searchText.current.value + " only give me the  5 movie name , coma seprated like the example result ahead. Example result : Inception, The Dark Knight, Interstellar, The Matrix, Fight Club";
+    const query =   `Act as a movie recommendation engine. For the query: "${searchText.current.value}", ` +
+    `return exactly 5 movie titles as a comma-separated list.`;
 
-    const gptResult = await GptApi.chat.completions.create({
-      model: 'gpt-3.5-turbo',
-      messages: [
-        { role: 'user', content: query },
-      ],
-    });
+  const gptResult = await GptApi.chat.completions.create({
+    model: 'gpt-4o-mini',
+    messages: [{ role: 'user', content: query }],
+});
     if(!gptResult.choices) {// Handle error or empty response
       console.error("No choices returned from GPT");
       return;
@@ -44,7 +43,7 @@ function GptSearchBar() {
 
 
   return (
-    <div className='flex justify-center w-full mb-4 bg-black bg-opacity-80 z-[100] '>
+    <div className='flex justify-center w-full bg-black bg-opacity-80 z-[100] '>
       <form
         className='w-full md:w-1/2 bg-black bg-opacity-80 grid grid-cols-12 rounded-lg z-[100]'
         onSubmit={(e) => e.preventDefault()}

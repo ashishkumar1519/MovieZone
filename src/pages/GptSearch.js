@@ -12,7 +12,7 @@ function GptSearch() {
           alt="Background"
         />
       </div>
-      <div className="">
+      <div >
         <GptSearchBar />
         <GptMovieSuggestions />
       </div>

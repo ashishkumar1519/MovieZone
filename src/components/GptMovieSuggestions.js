@@ -10,7 +10,7 @@ function GptMovieSuggestions() {
   }
 
   return (
-    <div className='flex justify-center bg-black bg-opacity-80 flex-wrap flex-1 overflow-y-auto bg-white '>
+    <div className='flex justify-center bg-black bg-opacity-80 flex-wrap flex-1 overflow-y-scroll bg-white h-[calc(100vh-88px)]'>
         {searchedGptMovies.map((moviesArray, index) => (
         <MovieList
           key={index} // ✅ unique key for each list

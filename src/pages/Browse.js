@@ -24,9 +24,11 @@ return (
     <div className='h-full w-full flex flex-col '>
     <Header position ="absolute top-0 left-0 right-0 z-10" />
   {
-    showGptSearch ? <GptSearch /> :   <MainContainer />
+    showGptSearch ? <div className='h[100vh - 60px] overflow-y-auto '>
+      <GptSearch />
+    </div>
+       :   <MainContainer />
   }
-  
     </div>
   )
 }
